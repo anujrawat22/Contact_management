@@ -1,32 +1,21 @@
-import { Alert, Button, Container, Stack, TextField, Typography } from '@mui/material'
+import { Button, Container, Stack, TextField, Typography } from '@mui/material'
 import axios from 'axios'
-import React, { useState } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm()
-    const [open, setOpen] = useState(false);
+
     const loginform = async (data) => {
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/user/login`, { ...data })
+            console.log(response.data.msg);
         } catch (error) {
             console.log(error.response.data.err);
         }
 
     }
-
-    const handleClick = () => {
-        setOpen(true);
-    };
-
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setOpen(false);
-    };
 
     return (
         <>
@@ -61,12 +50,6 @@ const Login = () => {
                     </form>
                 </Container>
             </div>
-            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                    This is a success message!
-                </Alert>
-                <Alert severity="error">This is an error message!</Alert>
-            </Snackbar>
 
         </>
     )
