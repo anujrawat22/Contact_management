@@ -1,12 +1,15 @@
 const { Router } = require("express")
-const { addContact, getContacts, updateContact, deleteContact } = require("../Controllers/ContactController")
+const { addContact, getContacts, updateContact, deleteContact, getContactById, searchContacts } = require("../Controllers/ContactController")
 
 const ContactRouter = Router()
 
+ContactRouter.get("/", getContacts)
+
+ContactRouter.get("/:id", getContactById)
+
+ContactRouter.get("/search", searchContacts)
+
 ContactRouter.post("/", addContact)
-
-
-ContactRouter.get("/:id", getContacts)
 
 ContactRouter.put("/:id", updateContact)
 

@@ -1,12 +1,13 @@
 const mongoose = require('mongoose')
 
 
-const ContactSchema = mongoose.Schema({
-    email: { type: String, required: true },
+const ContactSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    mobile : {type : Number , required : true},
-    country_code : {type : String , required : true},
-    
+    phoneNumber: { type: String, required: true }
+}, {
+    timestamps: true
 })
 
 const Contact = mongoose.model("Contact", ContactSchema)
