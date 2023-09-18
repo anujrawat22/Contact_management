@@ -2,17 +2,42 @@ import { Button, Container, Stack, TextField, Typography } from '@mui/material'
 import axios from 'axios'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
+import { useAuth } from '../Contexts/AuthContext'
+import Cookies from 'js-cookie'
 
 const Login = () => {
+    const navigate = useNavigate()
+    const { login } = useAuth()
     const { register, handleSubmit, formState: { errors } } = useForm()
 
     const loginform = async (data) => {
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/user/login`, { ...data })
-            console.log(response.data.msg);
+            // console.log(response.data.msg);
+            Swal.fire(
+                {
+                    title: response.data.msg,
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1500
+                }
+            )
+            Cookies.set('token', response.data.token)
+            Cookies.set('username' , response.data.username)
+            login(response.data.token,response.data.username)
+            navigate('/contacts')
         } catch (error) {
-            console.log(error.response.data.err);
+            // console.log(error.response.data.err);
+            Swal.fire(
+                {
+                    title: error.response.data.err,
+                    icon: 'error',
+                    showConfirmButton: false,
+                    timer: 1500
+                }
+            )
         }
 
     }

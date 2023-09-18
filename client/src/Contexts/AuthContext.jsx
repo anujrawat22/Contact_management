@@ -16,20 +16,15 @@ export function AuthProvider({ children }) {
 
     const [user, setuser] = useState(initialState)
 
-    const login = (token, user) => {
-        setuser((prevState) => {
-            prevState.isAuthenticated = true
-            prevState.token = token
-            prevState.user = user
+    const login = (token, username) => {
+        setuser({
+            isAuthenticated: true,
+            token, username
         })
     }
 
     const logout = () => {
-        setuser((prevState) => {
-            prevState.isAuthenticated = false
-            prevState.token = null
-            prevState.user = null
-        })
+        setuser({ isAuthenticated: false, token: null, username: null })
     }
 
     return (

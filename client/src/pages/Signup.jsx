@@ -1,13 +1,38 @@
 import { Button, Container, Stack, TextField, Typography } from '@mui/material'
+import axios from 'axios'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 const Signup = () => {
+    const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors } } = useForm()
 
-    const formsubmit = (data) => {
-        console.log(data);
+    const SignupForm = async (data) => {
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/user/signup`, { ...data })
+            // console.log(response.data.msg);
+            Swal.fire(
+                {
+                    title: response.data.msg,
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1500
+                }
+            )
+            navigate('/login')
+        } catch (error) {
+            // console.log(error.response.data.err);
+            Swal.fire(
+                {
+                    title: error.response.data.err,
+                    icon: 'error',
+                    showConfirmButton: false,
+                    timer: 1500
+                }
+            )
+        }
     }
 
     return (
@@ -17,10 +42,10 @@ const Signup = () => {
             </Typography>;
             <Container maxWidth="xs" >
                 <form onSubmit={
-                    handleSubmit(data => formsubmit(data))
+                    handleSubmit(data => SignupForm(data))
                 }>
                     <Stack spacing={3}>
-                        <TextField id="outlined-basic" label="Username" variant="outlined" size="small" {...register('username', { required: true })} />
+                        <TextField id="outlined-basic" label="Username" variant="outlined" size="small" {...register('name', { required: true })} />
                         <TextField id="outlined-basic" label="Email" variant="outlined" size="small" {...register('email', {
                             required: true, pattern: {
                                 value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,

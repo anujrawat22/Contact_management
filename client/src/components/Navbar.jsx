@@ -6,6 +6,7 @@ import { useAuth } from '../Contexts/AuthContext';
 const Navbar = () => {
 
     const { user, logout } = useAuth()
+   
     const { isAuthenticated, username } = user
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const settings = [username, 'Logout'];
@@ -53,7 +54,7 @@ const Navbar = () => {
                                 >
                                     {settings.map((setting) => (
                                         <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                            {setting === 'Logout' ? <Typography textAlign="center" onClick={logout()}>{setting}</Typography> :
+                                            {setting === 'Logout' ? <Typography textAlign="center" onClick={()=>logout()}>{setting}</Typography> :
                                                 <Typography textAlign="center">{setting}</Typography>}
                                         </MenuItem>
                                     ))}
