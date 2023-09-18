@@ -4,8 +4,7 @@ const secretkey = process.env.Secretkey
 
 const authenticate = (req, res, next) => {
     try {
-        const token = req.authorization?.header?.split(" ")[1]
-
+        const token = req.headers.authorization?.split(" ")[1]
         if (!token) {
             return res.status(401).send({ err: "Unauthorized" })
         }
