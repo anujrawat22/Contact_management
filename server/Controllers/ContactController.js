@@ -1,4 +1,5 @@
 const { Contact } = require("../Models/ContactModel")
+const PDFDocument = require('pdfkit');
 
 exports.addContact = async (req, res) => {
     const { name, email, phoneNumber } = req.body
@@ -83,7 +84,7 @@ exports.updateContact = async (req, res) => {
         contact.phoneNumber = phoneNumber;
         contact.email = email;
         await contact.save()
-        await contact.populate("userId",'name')
+        await contact.populate("userId", 'name')
         res.status(200).send({ contact })
     } catch (error) {
         console.log("Error updating the contact : ", error);
@@ -106,5 +107,30 @@ exports.deleteContact = async (req, res) => {
     } catch (error) {
         console.log("Error deleting the contact :", error);
         res.status(500).send({ err: "Server error" })
+    }
+}
+
+exports.downloadpdf = async (req, res) => {
+    const userId = req.userId
+    try {
+        const contacts = await Contact.find({ userId })
+
+        const doc = new PDFDocument();
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=contacts.pdf');
+        doc.pipe(res);
+        doc.fontSize(12);
+        contacts.forEach((contact) => {
+            doc.text(`Name: ${contact.name}`);
+            doc.text(`Email: ${contact.email}`);
+            doc.text(`Phone Number: ${contact.phoneNumber}`);
+            doc.moveDown(); 
+        });
+
+         
+        doc.end();
+    } catch (error) {
+        console.error('Error generating PDF:', error);
+        res.status(500).json({ error: 'Server error' });
     }
 }
