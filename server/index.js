@@ -7,7 +7,6 @@ const { UserRouter } = require('./Routes/UserRoute')
 const { authenticate } = require('./Middleware/authenticate')
 const { ContactRouter } = require('./Routes/ContactRoute')
 const port = process.env.PORT
-
 const app = express()
 app.use(express.json())
 app.use(cors())
