@@ -1,5 +1,10 @@
 # Contact_management
 
+## Get Started
+   
+   * Clone the repo  - git clone https://github.com/anujrawat22/Contact_management.git
+
+
 #### Login credentials 
      email - anuj22rawat20@gmail.com
      password - anujrawat
