@@ -10,7 +10,7 @@ const port = process.env.PORT
 
 const app = express()
 app.use(express.json())
-app.use(cors("*"))
+app.use(cors())
 
 app.use("/api/user", UserRouter)
 app.use("/api/contacts", authenticate, ContactRouter)
