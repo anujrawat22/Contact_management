@@ -11,6 +11,10 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
+app.get("/",(req,res)=>{
+        res.send("<h1>Welcome to backend of contact management</h1>")
+})
+
 app.use("/api/user", UserRouter)
 app.use("/api/contacts", authenticate, ContactRouter)
 
